@@ -3,11 +3,12 @@ package mongodb.demo.mongodemo.models;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
-public class NewsDto {
+public class NewsDto implements Serializable {
     private String id;
     private String title;
     private String content;

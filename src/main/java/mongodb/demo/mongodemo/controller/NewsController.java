@@ -4,6 +4,8 @@ import mongodb.demo.mongodemo.models.News;
 import mongodb.demo.mongodemo.models.NewsDto;
 import mongodb.demo.mongodemo.services.NewsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +15,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin
+@EnableCaching
 public class NewsController {
     private final NewsService newsService;
 
@@ -21,11 +24,12 @@ public class NewsController {
         this.newsService = newsService;
     }
 
+    @Cacheable(value = "news")
     @GetMapping("/news")
     public Page<NewsDto> getNewsPage(
             @RequestParam(defaultValue = "0") Integer offset,              // Номер страницы
             @RequestParam(defaultValue = "10") Integer limit
-    ){
+    )  {
         return newsService.getNews(PageRequest.of(offset,limit));
     }
 
